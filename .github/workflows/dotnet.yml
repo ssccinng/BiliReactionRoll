@@ -8,6 +8,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+  workflow_dispatch:
+    # 添加手动触发选项
 
 jobs:
   build:
@@ -22,8 +24,17 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
+      run: dotnet restore    - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    
+    - name: Run Application and Save Results
+      run: dotnet run --project BiliReactionRoll/BiliReactionRoll.csproj > result.txt
+    
+    - name: Upload Results
+      uses: actions/upload-artifact@v4
+      with:
+        name: roll-results
+        path: result.txt
+        retention-days: 5
