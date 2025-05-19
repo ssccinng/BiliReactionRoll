@@ -5,8 +5,9 @@ name:  B站5000粉抽奖
 
 
 on:
-  # 删除自动触发条件，只保留手动触发
   workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * *' # 每天00:00触发
 
 jobs:
   build:
